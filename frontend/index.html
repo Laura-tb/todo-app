@@ -4,18 +4,26 @@
 <head>
     <meta charset="UTF-8" />
     <title>Gestor de Tareas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!--CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+
 </head>
 
-<body>
-    <div class="container">
-        <h1>Gestor de tareas</h1>
+<body class="container">
+    <header>
+        <h1 class="center-align">GESTOR DE TAREAS</h1>
+    </header>
+
+    <!--FORMULARIO PARA AÑADIR TAREAS-->
+    <main>
         <div class="row">
-            <form>
+            <form id="formulario-tarea" class="col s12">
                 <div class="input-field col s6">
-                    <input placeholder="Añade el titulo de la tarea" id="title" type="text" class="validate">
+                    <input placeholder="Añade el titulo de la tarea" id="title" type="text" class="validate" required>
                     <label for="title">Tarea</label>
                 </div>
 
@@ -24,63 +32,65 @@
                     <label for="description">Descripción de la tarea</label>
                 </div>
 
-                <a class="waves-effect waves-light btn">Añadir</a>
+                <div class="col s12">
+                    <button class="btn waves-effect waves-light" type="submit">Añadir tarea</button>
+                </div>
+
             </form>
         </div>
 
-        
+
         <div class="row">
             <!--COLUMNA TO DO-->
-            <div class="col s12 m6">
-                <h3>TO DO</h3>
+            <div class="col s12 m6" id="todo-list">
+                <h4>TO DO</h4>
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
                         <span class="card-title">Tarea 1</span>
                         <p>I am a very simple card. I am good at containing small bits of information.
                             I am convenient because I require little markup to use effectively.</p>
                     </div>
-                    <!--<div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                    </div>-->
+                    <div class="card-action">
+                        <button class="btn waves-effect waves-light" type="button">Completada</button>
+                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
+                    </div>
                 </div>
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
-                        <span class="card-title">Tarea 1</span>
+                        <span class="card-title">Tarea 2</span>
                         <p>I am a very simple card. I am good at containing small bits of information.
                             I am convenient because I require little markup to use effectively.</p>
                     </div>
-                    <!--<div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                    </div>-->
+                    <div class="card-action">
+                        <button class="btn waves-effect waves-light" type="button">Completada</button>
+                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
+                    </div>
                 </div>
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
-                        <span class="card-title">Tarea 1</span>
+                        <span class="card-title">Tarea 3</span>
                         <p>I am a very simple card. I am good at containing small bits of information.
                             I am convenient because I require little markup to use effectively.</p>
                     </div>
-                    <!--<div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                    </div>-->
+                    <div class="card-action">
+                        <button class="btn waves-effect waves-light" type="button">Completada</button>
+                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
+                    </div>
                 </div>
             </div>
 
             <!--COLUMNA DONE-->
-            <div class="col s12 m6">
-                <h3>DONE</h3>
+            <div class="col s12 m6" id="done-list">
+                <h4>DONE</h4>
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
                         <span class="card-title">Tarea 1</span>
                         <p>I am a very simple card. I am good at containing small bits of information.
                             I am convenient because I require little markup to use effectively.</p>
                     </div>
-                    <!--<div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                    </div>-->
+                    <div class="card-action">
+                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
+                    </div>
                 </div>
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
@@ -88,10 +98,9 @@
                         <p>I am a very simple card. I am good at containing small bits of information.
                             I am convenient because I require little markup to use effectively.</p>
                     </div>
-                    <!--<div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                    </div>-->
+                    <div class="card-action">
+                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
+                    </div>
                 </div>
                 <div class="card blue-grey darken-1">
                     <div class="card-content white-text">
@@ -99,15 +108,16 @@
                         <p>I am a very simple card. I am good at containing small bits of information.
                             I am convenient because I require little markup to use effectively.</p>
                     </div>
-                    <!--<div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                    </div>-->
+                    <div class="card-action">
+                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
+    </main>
+    <!--JS-->
+    <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 </body>

@@ -10,3 +10,6 @@ INSERT INTO tareas (descripcion) VALUES ('Estudiar Java');
 INSERT INTO tareas (descripcion, completada) VALUES ('Hacer proyecto DAW', true);*/
 
 SELECT * FROM tareas;
+ALTER TABLE tareas
+ADD COLUMN nombre VARCHAR(100) NOT NULL;
+
