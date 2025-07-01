@@ -6,7 +6,7 @@
     <title>Gestor de Tareas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!--CDN -->
+    <!--ENLACE A ESTILOS DE MATERIALIZE CSS (DESDE CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
 
@@ -18,20 +18,24 @@
         <h1 class="center-align">GESTOR DE TAREAS</h1>
     </header>
 
-    <!--FORMULARIO PARA AÑADIR TAREAS-->
+    <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN -->
     <main>
         <div class="row">
+             <!-- FORMULARIO PARA AÑADIR NUEVAS TAREAS -->
             <form id="formulario-tarea" class="col s12">
+                <!-- Campo para el título o descripción corta de la tarea -->
                 <div class="input-field col s6">
                     <input placeholder="Añade el titulo de la tarea" id="title" type="text" class="validate" required>
                     <label for="title">Tarea</label>
                 </div>
 
+                <!-- Campo para la descripción detallada de la tarea -->
                 <div class="input-field col s6">
                     <textarea id="description" class="materialize-textarea"></textarea>
                     <label for="description">Descripción de la tarea</label>
                 </div>
 
+                <!-- Botón para enviar el formulario y añadir la tarea -->
                 <div class="col s12">
                     <button class="btn waves-effect waves-light" type="submit">Añadir tarea</button>
                 </div>
@@ -41,8 +45,9 @@
 
 
         <div class="row">
-            <!--COLUMNA TO DO-->
+            <!-- COLUMNA DE TAREAS PENDIENTES (TO DO) -->
             <div class="col s12 m6" id="todo-list">
+                <!-- Contenedor donde se cargarán dinámicamente las tareas pendientes -->
                 <h4>TO DO</h4>
                 <div class="card blue-grey darken-1" id="tareas-todo-container">
                     <!--<div class="card-content white-text">
@@ -79,9 +84,10 @@
                 </div>
             </div>
 
-            <!--COLUMNA DONE-->
+             <!-- COLUMNA DE TAREAS COMPLETADAS (DONE) -->
             <div class="col s12 m6" id="done-list">
                 <h4>DONE</h4>
+                <!-- Contenedor donde se cargarán dinámicamente las tareas completadas -->
                 <div class="card blue-grey darken-1" id="tareas-done-container">
                     <!--<div class="card-content white-text">
                         <span class="card-title">Tarea 1</span>
@@ -116,8 +122,11 @@
         </div>
 
     </main>
-    <!--JS-->
+
+     <!-- ENLACE AL ARCHIVO JAVASCRIPT EXTERNO QUE CONTIENE LA LÓGICA DEL FRONTEND -->
     <script src="script.js"></script>
+
+    <!-- ENLACE AL SCRIPT DE MATERIALIZE JS DESDE CDN PARA COMPONENTES INTERACTIVOS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 </body>

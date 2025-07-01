@@ -1,3 +1,4 @@
+/* Clase principal del servidor HTTP para la aplicación de tareas */
 package backend;
 
 /*Clase principal */
@@ -20,18 +21,27 @@ import com.google.gson.Gson;
 public class Main {
 
   public static void main(String[] args) throws IOException {
+    // Crear servidor HTTP escuchando en el puerto 8000, backlog 0 (por defecto)
     HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
 
+    // Registrar contexto /tareas y asignar manejador de peticiones
     server.createContext("/tareas", new TareasHandler());
+
+    // Usar el executor por defecto (null)
     server.setExecutor(null);
     System.out.println("Servidor iniciado en http://localhost:8000");
+
+    // Iniciar el servidor
     server.start();
   }
 
+  /**
+   * Clase interna que maneja las peticiones HTTP para /tareas
+   */
   static class TareasHandler implements HttpHandler {
 
-    private final TareaDAO tareaDAO = new TareaDAO();
-    private final Gson gson = new Gson();
+    private final TareaDAO tareaDAO = new TareaDAO(); // DAO para operaciones BD
+    private final Gson gson = new Gson(); // Gson para JSON
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -40,9 +50,12 @@ public class Main {
 
         // MANEJAR PETICIÓN OPTIONS (preflight CORS)
         if (method.equalsIgnoreCase("OPTIONS")) {
+          // Añadir headers CORS para permitir peticiones desde cualquier origen
           exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
           exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
           exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type");
+
+          // Responder sin contenido (204)
           exchange.sendResponseHeaders(204, -1); // Sin contenido
           exchange.close();
           return;
@@ -51,7 +64,7 @@ public class Main {
         // Agregar header CORS a TODAS las respuestas
         exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
 
-        //GET
+        // MANEJO MÉTODO GET: devolver lista de tareas
         if (method.equalsIgnoreCase("GET")) {
           List<Tarea> tareas = tareaDAO.getAll();
           String response = gson.toJson(tareas);
@@ -62,7 +75,7 @@ public class Main {
           os.write(response.getBytes(StandardCharsets.UTF_8));
           os.close();
 
-          //POST
+          // MANEJO MÉTODO POST: añadir nueva tarea
         } else if (method.equalsIgnoreCase("POST")) {
           String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
           Tarea nuevaTarea = gson.fromJson(body, Tarea.class);
@@ -79,7 +92,7 @@ public class Main {
             exchange.sendResponseHeaders(400, -1);
           }
 
-          //DELETE
+          // MANEJO MÉTODO DELETE: eliminar tarea por ID
         } else if (method.equalsIgnoreCase("DELETE")) {
           String query = exchange.getRequestURI().getQuery();
           if (query != null && query.startsWith("id=")) {
@@ -95,7 +108,7 @@ public class Main {
             exchange.sendResponseHeaders(400, -1);
           }
 
-          //PUT
+          // MANEJO MÉTODO PUT: marcar tarea como completada
         } else if (method.equalsIgnoreCase("PUT")) {
           String query = exchange.getRequestURI().getQuery();
           int id = -1;
@@ -121,6 +134,7 @@ public class Main {
             exchange.sendResponseHeaders(400, -1);
           }
 
+          // Para métodos no permitidos, responder con 405 Method Not Allowed
         } else {
           exchange.sendResponseHeaders(405, -1);
         }

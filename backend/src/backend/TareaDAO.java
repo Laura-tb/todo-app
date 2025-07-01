@@ -13,6 +13,10 @@ Contendrá métodos para:
 package backend;
 
 /**
+ * Clase DAO (Data Access Object) para gestionar operaciones CRUD sobre la tabla
+ * `tareas` en la base de datos.
+ *
+ * Proporciona métodos para obtener, insertar, eliminar y actualizar tareas.
  *
  * @author laura
  */
@@ -22,6 +26,12 @@ import java.util.List;
 
 public class TareaDAO {
 
+  /**
+   * Obtiene todas las tareas almacenadas en la base de datos.
+   *
+   * @return Lista con todas las tareas encontradas
+   * @throws SQLException Si ocurre un error en la consulta o conexión
+   */
   public List<Tarea> getAll() throws SQLException {
     List<Tarea> tareas = new ArrayList<>();
     try (Connection conn = ConexionBD.conectar()) {
@@ -32,13 +42,19 @@ public class TareaDAO {
           t.setId(rs.getInt("id"));
           t.setDescripcion(rs.getString("descripcion"));
           t.setCompletada(rs.getBoolean("completada"));
-          tareas.add(t);
+          tareas.add(t); // Añadir tarea a la lista
         }
       }
     }
     return tareas;
   }
 
+  /**
+   * Inserta una nueva tarea en la base de datos.
+   *
+   * @param tarea Objeto Tarea con la información a insertar
+   * @throws SQLException Si ocurre un error en la inserción o conexión
+   */
   public void insert(Tarea tarea) throws SQLException {
     try (Connection conn = ConexionBD.conectar()) {
       String sql = "INSERT INTO tareas (descripcion) VALUES (?)";
@@ -49,6 +65,12 @@ public class TareaDAO {
     }
   }
 
+  /**
+   * Elimina una tarea de la base de datos según su ID.
+   *
+   * @param id Identificador de la tarea a eliminar
+   * @throws SQLException Si ocurre un error en la eliminación o conexión
+   */
   public void delete(int id) throws SQLException {
     try (Connection conn = ConexionBD.conectar()) {
       String sql = "DELETE FROM tareas WHERE id = ?";
@@ -59,6 +81,12 @@ public class TareaDAO {
     }
   }
 
+  /**
+   * Marca una tarea como completada (completada = TRUE) según su ID.
+   *
+   * @param id Identificador de la tarea a actualizar
+   * @throws SQLException Si ocurre un error en la actualización o conexión
+   */
   public void marcarComoCompletada(int id) throws SQLException {
     try (Connection conn = ConexionBD.conectar()) {
       String sql = "UPDATE tareas SET completada = TRUE WHERE id = ?";
