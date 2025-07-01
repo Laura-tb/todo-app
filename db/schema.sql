@@ -1,4 +1,4 @@
-/*CREATE DATABASE IF NOT EXISTS todo_app;
+CREATE DATABASE IF NOT EXISTS todo_app;
 USE todo_app;
 
 CREATE TABLE IF NOT EXISTS tareas (
@@ -7,9 +7,9 @@ CREATE TABLE IF NOT EXISTS tareas (
     completada BOOLEAN DEFAULT FALSE
 );
 INSERT INTO tareas (descripcion) VALUES ('Estudiar Java');
-INSERT INTO tareas (descripcion, completada) VALUES ('Hacer proyecto DAW', true);*/
+INSERT INTO tareas (descripcion, completada) VALUES ('Hacer proyecto DAW', true);
+
+ALTER TABLE tareas MODIFY nombre VARCHAR(255) NOT NULL DEFAULT '';
 
 SELECT * FROM tareas;
-ALTER TABLE tareas
-ADD COLUMN nombre VARCHAR(100) NOT NULL;
-
+DESCRIBE tareas;

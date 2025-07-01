@@ -22,78 +22,50 @@ import java.util.List;
 
 public class TareaDAO {
 
-  //insertar una nueva fila en la tabla tareas
-  public boolean guardarTarea(Tarea tarea) {
-    String sql = "INSERT INTO tareas (nombre, descripcion, completada) VALUES (?, ?, ?)";
-
-    try (Connection conn = ConexionBD.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-      stmt.setString(1, tarea.getNombre());
-      stmt.setString(2, tarea.getDescripcion());
-      stmt.setBoolean(3, tarea.isCompletada());
-
-      stmt.executeUpdate();
-      return true;
-
-    } catch (SQLException e) {
-      System.out.println("❌ Error al guardar tarea: " + e.getMessage());
-      return false;
-    }
-  }
-
-  // Consultar todas las tareas
-  public List<Tarea> obtenerTodas() {
-    List<Tarea> lista = new ArrayList<>();
-    String sql = "SELECT * FROM tareas";
-
-    try (Connection conn = ConexionBD.conectar(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-
-      while (rs.next()) {
-        Tarea t = new Tarea(
-                rs.getInt("id"),
-                rs.getString("nombre"),
-                rs.getString("descripcion"),
-                rs.getBoolean("completada")
-        );
-        lista.add(t);
+  public List<Tarea> getAll() throws SQLException {
+    List<Tarea> tareas = new ArrayList<>();
+    try (Connection conn = ConexionBD.conectar()) {
+      String sql = "SELECT * FROM tareas";
+      try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        while (rs.next()) {
+          Tarea t = new Tarea();
+          t.setId(rs.getInt("id"));
+          t.setDescripcion(rs.getString("descripcion"));
+          t.setCompletada(rs.getBoolean("completada"));
+          tareas.add(t);
+        }
       }
-
-    } catch (SQLException e) {
-      System.out.println("❌ Error al obtener tareas: " + e.getMessage());
     }
-
-    return lista;
+    return tareas;
   }
 
-  // Marcar una tarea como completada
-  public boolean marcarComoCompletada(int id) {
-    String sql = "UPDATE tareas SET completada = 1 WHERE id = ?";
-
-    try (Connection conn = ConexionBD.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-      stmt.setInt(1, id);
-      int filas = stmt.executeUpdate();
-      return filas > 0;
-
-    } catch (SQLException e) {
-      System.out.println("❌ Error al marcar tarea como completada: " + e.getMessage());
-      return false;
+  public void insert(Tarea tarea) throws SQLException {
+    try (Connection conn = ConexionBD.conectar()) {
+      String sql = "INSERT INTO tareas (descripcion) VALUES (?)";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, tarea.getDescripcion());
+        ps.executeUpdate();
+      }
     }
   }
 
-  //Eliminar una tarea
-  public boolean eliminarTarea(int id) {
-    String sql = "DELETE FROM tareas WHERE id = ?";
+  public void delete(int id) throws SQLException {
+    try (Connection conn = ConexionBD.conectar()) {
+      String sql = "DELETE FROM tareas WHERE id = ?";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, id);
+        ps.executeUpdate();
+      }
+    }
+  }
 
-    try (Connection conn = ConexionBD.conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-      stmt.setInt(1, id);
-      int filas = stmt.executeUpdate();
-      return filas > 0;
-
-    } catch (SQLException e) {
-      System.out.println("❌ Error al eliminar tarea: " + e.getMessage());
-      return false;
+  public void marcarComoCompletada(int id) throws SQLException {
+    try (Connection conn = ConexionBD.conectar()) {
+      String sql = "UPDATE tareas SET completada = TRUE WHERE id = ?";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, id);
+        ps.executeUpdate();
+      }
     }
   }
 
