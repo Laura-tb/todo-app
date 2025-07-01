@@ -80,7 +80,7 @@ public class Main {
           String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
           Tarea nuevaTarea = gson.fromJson(body, Tarea.class);
 
-          if (nuevaTarea != null && nuevaTarea.getDescripcion() != null && !nuevaTarea.getDescripcion().isEmpty()) {
+          if (nuevaTarea != null && nuevaTarea.getNombre() != null && !nuevaTarea.getNombre().isEmpty()) {
             tareaDAO.insert(nuevaTarea);
             String resp = "{\"mensaje\":\"Tarea añadida\"}";
             exchange.getResponseHeaders().add("Content-Type", "application/json");

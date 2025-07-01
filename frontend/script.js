@@ -3,23 +3,26 @@ document.getElementById('formulario-tarea').addEventListener('submit', function 
     e.preventDefault(); // Evita que el formulario se envíe de forma tradicional (recarga de página)
 
      // Obtener valores de los campos de texto y eliminar espacios al inicio y final
-    const descripcion = document.getElementById('title').value.trim();
-    const detalle = document.getElementById('description').value.trim();
+    const nombre = document.getElementById('nombre').value.trim();
+    const description = document.getElementById('description').value.trim();
 
     //Conectar el frontend con fetch
-    // Solo procede si la descripción no está vacía
-    if (descripcion) {
+    // Solo procede si el nombre no está vacío
+    if (nombre) {
         // Enviar una petición POST al backend para crear una nueva tarea
+        
         fetch('http://localhost:8000/tareas', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ descripcion: descripcion /*, puedes enviar detalle si quieres*/ })
+            body: JSON.stringify({ nombre, description })
         })
             .then(response => {
+                console.log(response);
                 if (response.ok) {
+                    console.log('Hola2');
                     cargarTareas(); // recarga la lista
                     // Limpiar campos del formulario
-                    document.getElementById('title').value = '';
+                    document.getElementById('nombre').value = '';
                     document.getElementById('description').value = '';
                 } else {
                     alert('Error al añadir tarea');
@@ -53,17 +56,17 @@ function cargarTareas() {
                 cardContent.className = 'card-content white-text';
 
                 // Crear y asignar título con la descripción de la tarea
-                const title = document.createElement('span');
-                title.className = 'card-title';
-                title.textContent = tarea.descripcion;
+                const nombre = document.createElement('span');
+                nombre.className = 'card-title';
+                nombre.textContent = tarea.nombre;
 
                  // Agregar título al contenido de la tarjeta
-                cardContent.appendChild(title);
+                cardContent.appendChild(nombre);
 
                 // Si quieres mostrar detalle, lo agregas aquí, ej:
-                // const p = document.createElement('p');
-                // p.textContent = tarea.detalle;
-                // cardContent.appendChild(p);
+                 const p = document.createElement('p');
+                 p.textContent = tarea.description;
+                 cardContent.appendChild(p);
 
                 // Añadir contenido a la tarjeta
                 card.appendChild(cardContent);

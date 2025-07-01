@@ -11,7 +11,7 @@ public class Tarea {
 
   private int id; // Identificador único de la tarea en la base de datos
   private String nombre; // Nombre o título de la tarea
-  private String descripcion; // Descripción detallada de la tarea
+  private String description; // Descripción detallada de la tarea
   private boolean completada; // Estado que indica si la tarea está completada o no
 
   // Constructor vacío (por si se necesita)
@@ -25,9 +25,9 @@ public class Tarea {
    * @param descripcion Descripción de la tarea
    * @param completada Estado de completada (false al crear normalmente)
    */
-  public Tarea(String nombre, String descripcion, boolean completada) {
+  public Tarea(String nombre, String description, boolean completada) {
     this.nombre = nombre;
-    this.descripcion = descripcion;
+    this.description = description;
     this.completada = completada;
   }
 
@@ -39,10 +39,10 @@ public class Tarea {
    * @param descripcion Descripción detallada de la tarea
    * @param completada Estado de completada
    */
-  public Tarea(int id, String nombre, String descripcion, boolean completada) {
+  public Tarea(int id, String nombre, String description, boolean completada) {
     this.id = id;
     this.nombre = nombre;
-    this.descripcion = descripcion;
+    this.description = description;
     this.completada = completada;
   }
 
@@ -63,12 +63,12 @@ public class Tarea {
     this.nombre = nombre;
   }
 
-  public String getDescripcion() {
-    return descripcion;
+  public String getDescription() {
+    return description;
   }
 
-  public void setDescripcion(String descripcion) {
-    this.descripcion = descripcion;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public boolean isCompletada() {
@@ -89,7 +89,7 @@ public class Tarea {
     return "Tarea{"
             + "id=" + id
             + ", nombre='" + nombre + '\''
-            + ", descripcion='" + descripcion + '\''
+            + ", descripcion='" + description + '\''
             + ", completada=" + completada
             + '}';
   }

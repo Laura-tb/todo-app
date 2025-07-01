@@ -3,13 +3,12 @@ USE todo_app;
 
 CREATE TABLE IF NOT EXISTS tareas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion VARCHAR(255),
     completada BOOLEAN DEFAULT FALSE
 );
-INSERT INTO tareas (descripcion) VALUES ('Estudiar Java');
-INSERT INTO tareas (descripcion, completada) VALUES ('Hacer proyecto DAW', true);
-
-ALTER TABLE tareas MODIFY nombre VARCHAR(255) NOT NULL DEFAULT '';
+INSERT INTO tareas (nombre, descripcion, completada) VALUES ('Estudiar Java', 'Recordatorio para 2º', false);
+INSERT INTO tareas (nombre, completada) VALUES ('Hacer proyecto DAW', true);
 
 SELECT * FROM tareas;
 DESCRIBE tareas;

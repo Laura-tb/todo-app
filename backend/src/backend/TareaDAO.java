@@ -40,7 +40,8 @@ public class TareaDAO {
         while (rs.next()) {
           Tarea t = new Tarea();
           t.setId(rs.getInt("id"));
-          t.setDescripcion(rs.getString("descripcion"));
+          t.setNombre(rs.getString("nombre"));
+          t.setDescription(rs.getString("description"));
           t.setCompletada(rs.getBoolean("completada"));
           tareas.add(t); // Añadir tarea a la lista
         }
@@ -57,9 +58,10 @@ public class TareaDAO {
    */
   public void insert(Tarea tarea) throws SQLException {
     try (Connection conn = ConexionBD.conectar()) {
-      String sql = "INSERT INTO tareas (descripcion) VALUES (?)";
+      String sql = "INSERT INTO tareas (nombre, description) VALUES (?, ?)";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, tarea.getDescripcion());
+        ps.setString(1, tarea.getNombre());
+        ps.setString(2, tarea.getDescription());
         ps.executeUpdate();
       }
     }
