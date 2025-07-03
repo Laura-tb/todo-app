@@ -1,22 +1,12 @@
-/* Clase TareaDAO.java, que se encargará de:
-  Insertar nuevas tareas
-  Consultar todas las tareas
-  Marcar una tarea como completada
-  Eliminar una tarea
-
-Contendrá métodos para:
-  guardarTarea(Tarea tarea) → insertar nueva tarea
-  obtenerTodas() → devolver lista de tareas
-  marcarComoCompletada(int id)
-  eliminarTarea(int id)
- */
 package backend;
 
 /**
- * Clase DAO (Data Access Object) para gestionar operaciones CRUD sobre la tabla
- * `tareas` en la base de datos.
+ * DAO (Data Access Object) encargado de persistir y recuperar {@link Tarea}s.
  *
- * Proporciona métodos para obtener, insertar, eliminar y actualizar tareas.
+ * <p>Todos los métodos utilizan la clase {@link ConexionBD} para abrir una
+ * conexión a la base de datos y la cierran automáticamente mediante
+ * <em>try-with-resources</em>. Utiliza esta clase desde la capa de servicio o
+ * desde los manejadores HTTP para manipular la tabla {@code tareas}.</p>
  *
  * @author laura
  */

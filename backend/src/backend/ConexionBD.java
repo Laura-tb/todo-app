@@ -1,9 +1,14 @@
 package backend;
 
 /**
- * Clase para gestionar la conexión a la base de datos MySQL
+ * Utilidad para obtener conexiones JDBC a la base de datos MySQL.
+ *
+ * <p>Los datos de conexión se toman preferentemente de las variables de entorno
+ * {@code DB_URL}, {@code DB_USER} y {@code DB_PASSWORD}. Si no están
+ * definidas, se intenta cargar el archivo {@code db.properties} ubicado en el
+ * classpath y, finalmente, se utilizan valores por defecto.</p>
+ *
  * @author laura
- * Esta clase utiliza JDBC para conectar con la base de datos 'todo_app'
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -51,6 +56,8 @@ public class ConexionBD {
    *
    * @return Connection objeto que representa la conexión
    * @throws SQLException si ocurre un problema al conectar
+   *
+   * @implNote El llamante es responsable de cerrar la conexión devuelta.
    */
   public static Connection conectar() throws SQLException {
     Connection conn = DriverManager.getConnection(URL, USUARIO, CONTRASENA);

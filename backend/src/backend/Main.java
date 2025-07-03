@@ -1,8 +1,12 @@
-/* Clase principal del servidor HTTP para la aplicación de tareas */
 package backend;
 
-/*Clase principal */
 /**
+ * Punto de entrada del backend de la aplicación de tareas.
+ *
+ * <p>Esta clase inicia un {@link com.sun.net.httpserver.HttpServer} en el
+ * puerto {@code 8000} y registra el manejador que expone la API REST para las
+ * tareas. Una vez iniciado, el servidor permanece escuchando peticiones hasta
+ * que el proceso es detenido.</p>
  *
  * @author laura
  */
@@ -20,6 +24,13 @@ import com.google.gson.Gson;
 
 public class Main {
 
+  /**
+   * Arranca el servidor HTTP de la aplicación.
+   *
+   * @param args no se utilizan, pero se mantienen para compatibilidad con la
+   *             firma estándar de {@code main}
+   * @throws IOException si ocurre un problema al iniciar el servidor
+   */
   public static void main(String[] args) throws IOException {
     // Crear servidor HTTP escuchando en el puerto 8000, backlog 0 (por defecto)
     HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
@@ -36,7 +47,11 @@ public class Main {
   }
 
   /**
-   * Clase interna que maneja las peticiones HTTP para /tareas
+   * Manejador HTTP para el endpoint {@code /tareas}.
+   *
+   * <p>Responde a peticiones GET, POST, DELETE y PUT empleando un
+   * {@link TareaDAO} para acceder a la base de datos. También atiende a la
+   * petición OPTIONS necesaria para CORS.</p>
    */
   static class TareasHandler implements HttpHandler {
 
@@ -44,6 +59,17 @@ public class Main {
     private final Gson gson = new Gson(); // Gson para JSON
 
     @Override
+    /**
+     * Procesa una petición HTTP entrante.
+     *
+     * <p>Dependiendo del método de la petición se ejecutarán distintas
+     * operaciones sobre las tareas almacenadas. Todas las respuestas incluyen las
+     * cabeceras CORS necesarias.</p>
+     *
+     * @param exchange contexto de la petición proporcionado por el servidor
+     * @throws IOException si ocurre algún problema al leer o escribir la
+     *                     respuesta
+     */
     public void handle(HttpExchange exchange) throws IOException {
       try {
         String method = exchange.getRequestMethod();
