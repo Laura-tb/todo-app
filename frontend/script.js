@@ -21,6 +21,7 @@ document.getElementById('formulario-tarea').addEventListener('submit', function 
                 if (response.ok) {
                     console.log('Hola2');
                     cargarTareas(); // recarga la lista
+                    M.toast({ html: 'Tarea añadida', classes: 'rounded green lighten-1' });
                     // Limpiar campos del formulario
                     document.getElementById('nombre').value = '';
                     document.getElementById('description').value = '';
@@ -123,6 +124,7 @@ function eliminarTarea(id) {
         .then(response => {
             if (response.ok) {
                 cargarTareas(); // Actualizar la lista
+                M.toast({ html: 'Tarea eliminada', classes: 'rounded red lighten-1' });
             } else {
                 alert('Error al eliminar tarea');
             }
