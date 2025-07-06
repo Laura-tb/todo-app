@@ -99,4 +99,22 @@ public class TareaDAO {
     }
   }
 
+  /**
+   * Actualiza el estado completada de una tarea según su ID.
+   *
+   * @param id Identificador de la tarea
+   * @param completada Nuevo estado completada (true o false)
+   * @throws SQLException Si hay error en la consulta o conexión
+   */
+  public void actualizarCompletada(int id, boolean completada) throws SQLException {
+    try (Connection conn = ConexionBD.conectar()) {
+      String sql = "UPDATE tareas SET completada = ? WHERE id = ?";
+      try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setBoolean(1, completada);
+        ps.setInt(2, id);
+        ps.executeUpdate();
+      }
+    }
+  }
+
 }

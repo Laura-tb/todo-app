@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class Main {
 
@@ -123,25 +124,38 @@ public class Main {
           }
 
           if (id != -1) {
-            tareaDAO.marcarComoCompletada(id);
-            String resp = "{\"mensaje\":\"Tarea marcada como completada\"}";
-            exchange.getResponseHeaders().add("Content-Type", "application/json");
-            exchange.sendResponseHeaders(200, resp.getBytes(StandardCharsets.UTF_8).length);
-            OutputStream os = exchange.getResponseBody();
-            os.write(resp.getBytes(StandardCharsets.UTF_8));
-            os.close();
+            // Leer cuerpo JSON
+            String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+            try {
+              JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
+              if (jsonObject == null || !jsonObject.has("completada")) {
+                exchange.sendResponseHeaders(400, -1);
+                return;
+              }
+              boolean completada = jsonObject.get("completada").getAsBoolean();
+
+              // Actualizar estado en BD
+              tareaDAO.actualizarCompletada(id, completada);
+              String resp = "{\"mensaje\":\"Tarea marcada como completada\"}";
+              exchange.getResponseHeaders().add("Content-Type", "application/json");
+              exchange.sendResponseHeaders(200, resp.getBytes(StandardCharsets.UTF_8).length);
+              OutputStream os = exchange.getResponseBody();
+              os.write(resp.getBytes(StandardCharsets.UTF_8));
+              os.close();
+            } catch (Exception e) {
+              exchange.sendResponseHeaders(400, -1);
+            }
+
+            // Para métodos no permitidos, responder con 405 Method Not Allowed
           } else {
             exchange.sendResponseHeaders(400, -1);
           }
-
-          // Para métodos no permitidos, responder con 405 Method Not Allowed
-        } else {
-          exchange.sendResponseHeaders(405, -1);
         }
       } catch (Exception e) {
         e.printStackTrace();
         exchange.sendResponseHeaders(500, -1);
       }
+
     }
   }
 }

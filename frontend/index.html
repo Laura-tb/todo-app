@@ -9,6 +9,9 @@
     <!--ENLACE A ESTILOS DE MATERIALIZE CSS (DESDE CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
+    <!--ENLACE A ESTILOS CSS EXTERNOS-->
+    <link rel="stylesheet" href="styles.css">
+
 
 
 </head>
@@ -49,75 +52,15 @@
             <div class="col s12 m6" id="todo-list">
                 <!-- Contenedor donde se cargarán dinámicamente las tareas pendientes -->
                 <h4>TO DO</h4>
-                <div class="card blue-grey darken-1" id="tareas-todo-container">
-                    <!--<div class="card-content white-text">
-                        <span class="card-title">Tarea 1</span>
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                        <button class="btn waves-effect waves-light" type="button">Completada</button>
-                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
-                    </div>-->
-                </div>
-                <div class="card blue-grey darken-1">
-                    <!--<div class="card-content white-text">
-                        <span class="card-title">Tarea 2</span>
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                        <button class="btn waves-effect waves-light" type="button">Completada</button>
-                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
-                    </div>-->
-                </div>
-                <div class="card blue-grey darken-1">
-                    <!--<div class="card-content white-text">
-                        <span class="card-title">Tarea 3</span>
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                        <button class="btn waves-effect waves-light" type="button">Completada</button>
-                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
-                    </div>-->
-                </div>
+                <div id="tareas-todo-container"></div>
             </div>
 
              <!-- COLUMNA DE TAREAS COMPLETADAS (DONE) -->
             <div class="col s12 m6" id="done-list">
                 <h4>DONE</h4>
                 <!-- Contenedor donde se cargarán dinámicamente las tareas completadas -->
-                <div class="card blue-grey darken-1" id="tareas-done-container">
-                    <!--<div class="card-content white-text">
-                        <span class="card-title">Tarea 1</span>
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
-                    </div>-->
-                </div>
-                <div class="card blue-grey darken-1">
-                    <!--<div class="card-content white-text">
-                        <span class="card-title">Tarea 1</span>
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
-                    </div>-->
-                </div>
-                <div class="card blue-grey darken-1">
-                    <!--<div class="card-content white-text">
-                        <span class="card-title">Tarea 1</span>
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                        <button class="btn waves-effect waves-light" type="button">Eliminar</button>
-                    </div>-->
-                </div>
+                <div id="tareas-done-container"></div>
+
             </div>
         </div>
 
@@ -128,6 +71,9 @@
 
     <!-- ENLACE AL SCRIPT DE MATERIALIZE JS DESDE CDN PARA COMPONENTES INTERACTIVOS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!--LIBRERIA SortableJS PARA ARRASTRAR TARJETAS-->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
 </body>
 
