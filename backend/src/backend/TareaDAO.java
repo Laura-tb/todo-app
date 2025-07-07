@@ -84,15 +84,66 @@ public class TareaDAO {
     }
   }
 
-  // Actualizar el campo estado
-  public void actualizarEstado(int id, String nuevoEstado) throws SQLException {
-    try (Connection conn = ConexionBD.conectar()) {
-      String sql = "UPDATE tareas SET estado = ? WHERE id = ?";
-      try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, nuevoEstado);
-        ps.setInt(2, id);
-        ps.executeUpdate();
-      }
+
+  //Actualizar tarea
+  public void actualizarTarea(int id, String nombre, String descripcion, String estado) {
+    try (Connection conn = ConexionBD.conectar(); PreparedStatement stmt = conn.prepareStatement(
+            "UPDATE tareas SET nombre = ?, description = ?, estado = ? WHERE id = ?")) {
+
+      stmt.setString(1, nombre);
+      stmt.setString(2, descripcion);
+      stmt.setString(3, estado);
+      stmt.setInt(4, id);
+      stmt.executeUpdate();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  //Actualizar nombre al editar
+  public void actualizarNombre(int id, String nuevoNombre) {
+    if (nuevoNombre == null || nuevoNombre.trim().isEmpty()) {
+      return;
+    }
+
+    try (Connection conn = ConexionBD.conectar(); PreparedStatement stmt = conn.prepareStatement(
+            "UPDATE tareas SET nombre = ? WHERE id = ?")) {
+
+      stmt.setString(1, nuevoNombre);
+      stmt.setInt(2, id);
+      stmt.executeUpdate();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  //Actualizar descripcion al editar
+  public void actualizarDescripcion(int id, String nuevaDescripcion) {
+    try (Connection conn = ConexionBD.conectar(); PreparedStatement stmt = conn.prepareStatement(
+            "UPDATE tareas SET description = ? WHERE id = ?")) {
+
+      stmt.setString(1, nuevaDescripcion);
+      stmt.setInt(2, id);
+      stmt.executeUpdate();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  //Actualizar estado al editar
+  public void actualizarEstado(int id, String nuevoEstado) {
+    try (Connection conn = ConexionBD.conectar(); PreparedStatement stmt = conn.prepareStatement(
+            "UPDATE tareas SET estado = ? WHERE id = ?")) {
+
+      stmt.setString(1, nuevoEstado);
+      stmt.setInt(2, id);
+      stmt.executeUpdate();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 

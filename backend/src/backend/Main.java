@@ -129,6 +129,19 @@ public class Main {
               JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
               boolean hizoCambio = false;
 
+              // Solo actualiza si viene el campo
+              if (jsonObject.has("nombre")) {
+                String nombre = jsonObject.get("nombre").getAsString();
+                tareaDAO.actualizarNombre(id, nombre);
+                hizoCambio = true;
+              }
+
+              if (jsonObject.has("description")) {
+                String desc = jsonObject.get("description").getAsString();
+                tareaDAO.actualizarDescripcion(id, desc);
+                hizoCambio = true;
+              }
+
               if (jsonObject.has("estado")) {
                 String estado = jsonObject.get("estado").getAsString();
                 tareaDAO.actualizarEstado(id, estado);

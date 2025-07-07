@@ -70,6 +70,25 @@
             </div>
         </div>
 
+        <!-- Ventana Modal para editar tarea -->
+        <div id="modal-editar-tarea" class="modal">
+            <div class="modal-content">
+                <h4>Editar Tarea</h4>
+                <div class="input-field">
+                    <input id="editar-nombre" type="text" class="validate" required>
+                    <label for="editar-nombre">Nombre</label>
+                </div>
+                <div class="input-field">
+                    <textarea id="editar-description" class="materialize-textarea"></textarea>
+                    <label for="editar-description">Descripción</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                <a id="guardar-edicion" class="waves-effect waves-green btn green">Guardar</a>
+            </div>
+        </div>
+
 
     </main>
 

@@ -32,6 +32,12 @@ document.getElementById('formulario-tarea').addEventListener('submit', function 
     }
 });
 
+//Inicializa la ventana modal para editar
+document.addEventListener('DOMContentLoaded', function () {
+  var modals = document.querySelectorAll('.modal');
+  M.Modal.init(modals);
+});
+
 // Función para obtener las tareas del backend y mostrarlas en las columnas TO DO y DONE
 function cargarTareas() {
     fetch('http://localhost:8000/tareas')
@@ -83,15 +89,15 @@ function cargarTareas() {
                 const cardAction = document.createElement('div');
                 cardAction.className = 'card-action';
 
-                // Si la tarea NO está completada, añadir botón para marcarla como completada
+                // Si la tarea NO está completada, añadir botón para Editar
                 if (!tarea.completada) {
-                    const btnCompletar = document.createElement('button');
-                    btnCompletar.className = 'btn waves-effect waves-light';
-                    btnCompletar.textContent = 'Completada';
+                    const btnEditar = document.createElement('button');
+                    btnEditar.className = 'btn waves-effect waves-light blue';
+                    btnEditar.textContent = 'Editar';
 
-                    // Evento click para marcar la tarea como completada mediante petición PUT
-                    btnCompletar.onclick = () => moverTareaAEstado(tarea.id, 'done');
-                    cardAction.appendChild(btnCompletar);
+                    // Evento click para editar
+                    btnEditar.onclick = () => abrirModalEdicion(tarea);
+                    cardAction.appendChild(btnEditar);
                 }
 
                 // Botón para eliminar la tarea
@@ -196,6 +202,52 @@ function inicializarDragAndDrop() {
         }
     });
 }
+
+//Función abrir ventana modal para editar
+let tareaEditando = null;
+
+function abrirModalEdicion(tarea) {
+    tareaEditando = tarea;
+
+    document.getElementById('editar-nombre').value = tarea.nombre;
+    document.getElementById('editar-description').value = tarea.description;
+
+    M.updateTextFields(); // Actualiza los labels flotantes
+
+    const modal = M.Modal.getInstance(document.getElementById('modal-editar-tarea'));
+    modal.open();
+}
+
+//Maneja el botón “Guardar” en el modal
+document.getElementById('guardar-edicion').addEventListener('click', () => {
+    console.log("Boton guardar presionado");
+    const nombre = document.getElementById('editar-nombre').value.trim();
+    const description = document.getElementById('editar-description').value.trim();
+
+    if (!nombre) {
+        M.toast({ html: 'El nombre es obligatorio', classes: 'rounded red lighten-1' });
+        return;
+    }
+
+    fetch(`http://localhost:8000/tareas?id=${tareaEditando.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, description, estado: tareaEditando.estado })
+    })
+        .then(res => {
+            if (res.ok) {
+                const modal = M.Modal.getInstance(document.getElementById('modal-editar-tarea'));
+                modal.close();
+                cargarTareas();
+                M.toast({ html: 'Tarea actualizada', classes: 'rounded green lighten-1' });
+            } else {
+                throw new Error('Error al actualizar');
+            }
+        })
+        .catch(() => {
+            M.toast({ html: 'No se pudo actualizar la tarea', classes: 'rounded red lighten-1' });
+        });
+});
 
 // Al cargar la página, cargar y mostrar todas las tareas existentes
 cargarTareas();
