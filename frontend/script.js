@@ -14,12 +14,11 @@ document.getElementById('formulario-tarea').addEventListener('submit', function 
         fetch('http://localhost:8000/tareas', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre, description })
+            body: JSON.stringify({ nombre, description, estado: 'todo' })
         })
             .then(response => {
                 console.log(response);
                 if (response.ok) {
-                    console.log('Hola2');
                     cargarTareas(); // recarga la lista
                     M.toast({ html: 'Tarea añadida', classes: 'rounded green lighten-1' });
                     // Limpiar campos del formulario
@@ -36,14 +35,21 @@ document.getElementById('formulario-tarea').addEventListener('submit', function 
 // Función para obtener las tareas del backend y mostrarlas en las columnas TO DO y DONE
 function cargarTareas() {
     fetch('http://localhost:8000/tareas')
-        .then(res => res.json()) // Parsear la respuesta JSON
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('Respuesta no válida del servidor');
+            }
+            return res.json(); // Parsear la respuesta JSON
+        })
         .then(tareas => {
             // Obtener los contenedores donde se mostrarán las tareas pendientes y completadas
             const todoContainer = document.getElementById('tareas-todo-container');
+            const inprogressContainer = document.getElementById('tareas-inprogress-container');
             const doneContainer = document.getElementById('tareas-done-container');
 
             // Limpiar contenido previo
             todoContainer.innerHTML = '';
+            inprogressContainer.innerHTML = '';
             doneContainer.innerHTML = '';
 
             // Recorrer todas las tareas recibidas para crear sus tarjetas
@@ -84,7 +90,7 @@ function cargarTareas() {
                     btnCompletar.textContent = 'Completada';
 
                     // Evento click para marcar la tarea como completada mediante petición PUT
-                    btnCompletar.onclick = () => marcarComoCompletada(tarea.id);
+                    btnCompletar.onclick = () => moverTareaAEstado(tarea.id, 'done');
                     cardAction.appendChild(btnCompletar);
                 }
 
@@ -103,16 +109,19 @@ function cargarTareas() {
                 // Añadir la sección de acciones a la tarjeta
                 card.appendChild(cardAction);
 
-                // Añadir la tarjeta al contenedor correcto según su estado (completada o no)
-                if (tarea.completada) {
-                    doneContainer.appendChild(card);
-                } else {
+                // Añadir la tarjeta al contenedor correcto según su estado (completada, en progreso o no completada)
+                if (tarea.estado === 'todo') {
                     todoContainer.appendChild(card);
+                } else if (tarea.estado === 'inprogress') {
+                    inprogressContainer.appendChild(card);
+                } else if (tarea.estado === 'done') {
+                    doneContainer.appendChild(card);
                 }
             });
             inicializarDragAndDrop(); // Activar drag & drop después de cargar tareas
         })
-        .catch(() => {
+        .catch(error => {
+            console.error('Error al cargar las tareas:', error);
             alert('Error al cargar las tareas desde el servidor');
         });
 }
@@ -131,7 +140,7 @@ function eliminarTarea(id) {
         });
 }
 
-function marcarComoCompletada(id) {
+/*function marcarComoCompletada(id) {
     fetch(`http://localhost:8000/tareas?id=${id}`, {
         method: 'PUT'
     })
@@ -143,6 +152,24 @@ function marcarComoCompletada(id) {
             }
         })
         .catch(() => alert('Error en la conexión al marcar como completada'));
+}*/
+
+//Nueva funcion moverTarea
+function moverTareaAEstado(id, nuevoEstado) {
+    fetch(`http://localhost:8000/tareas?id=${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: nuevoEstado })
+    })
+        .then(response => {
+            if (response.ok) {
+                cargarTareas();
+                M.toast({ html: `Tarea movida a ${nuevoEstado.toUpperCase()}`, classes: 'rounded blue lighten-1' });
+            } else {
+                alert('Error al actualizar estado de la tarea');
+            }
+        })
+        .catch(() => alert('Error en la conexión con el servidor'));
 }
 
 // Drag & Drop con SortableJS
@@ -151,11 +178,22 @@ function inicializarDragAndDrop() {
         group: 'tareas',
         animation: 150,
         onAdd: function (evt) {
-            // Si llega una tarea aquí (mover DONE → TO DO)
             const tareaElement = evt.item;
             const idTarea = tareaElement.getAttribute('data-id');
             if (idTarea) {
-                marcarComoNoCompletada(idTarea);
+                moverTareaAEstado(idTarea, 'todo');
+            }
+        }
+    });
+
+    Sortable.create(document.getElementById('tareas-inprogress-container'), {
+        group: 'tareas',
+        animation: 150,
+        onAdd: function (evt) {
+            const tareaElement = evt.item;
+            const idTarea = tareaElement.getAttribute('data-id');
+            if (idTarea) {
+                moverTareaAEstado(idTarea, 'inprogress');
             }
         }
     });
@@ -164,49 +202,76 @@ function inicializarDragAndDrop() {
         group: 'tareas',
         animation: 150,
         onAdd: function (evt) {
-            // Si llega una tarea aquí (mover TO DO → DONE)
             const tareaElement = evt.item;
             const idTarea = tareaElement.getAttribute('data-id');
             if (idTarea) {
-                marcarComoCompletada(idTarea);
+                moverTareaAEstado(idTarea, 'done');
             }
         }
     });
 }
-
-// Nueva función para marcar como no completada
-function marcarComoNoCompletada(id) {
-    fetch(`http://localhost:8000/tareas?id=${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ completada: false })
-    })
-        .then(response => {
-            if (response.ok) {
-                cargarTareas();
-            } else {
-                alert('Error al marcar la tarea como no completada');
+    // Drag & Drop con SortableJS
+    /*function inicializarDragAndDrop() {
+        Sortable.create(document.getElementById('tareas-todo-container'), {
+            group: 'tareas',
+            animation: 150,
+            onAdd: function (evt) {
+                // Si llega una tarea aquí (mover DONE → TO DO)
+                const tareaElement = evt.item;
+                const idTarea = tareaElement.getAttribute('data-id');
+                if (idTarea) {
+                    marcarComoNoCompletada(idTarea);
+                }
             }
-        })
-        .catch(() => alert('Error en la conexión al actualizar la tarea'));
-}
-
-// Modifica esta función para que también envíe el estado completada=true en el body
-function marcarComoCompletada(id) {
-    fetch(`http://localhost:8000/tareas?id=${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ completada: true })
-    })
-        .then(response => {
-            if (response.ok) {
-                cargarTareas();
-            } else {
-                alert('Error al completar la tarea');
+        });
+    
+        Sortable.create(document.getElementById('tareas-done-container'), {
+            group: 'tareas',
+            animation: 150,
+            onAdd: function (evt) {
+                // Si llega una tarea aquí (mover TO DO → DONE)
+                const tareaElement = evt.item;
+                const idTarea = tareaElement.getAttribute('data-id');
+                if (idTarea) {
+                    marcarComoCompletada(idTarea);
+                }
             }
-        })
-        .catch(() => alert('Error en la conexión al marcar como completada'));
-}
+        });
+    }*/
 
-// Al cargar la página, cargar y mostrar todas las tareas existentes
-cargarTareas();
+    // Nueva función para marcar como no completada
+    /*function marcarComoNoCompletada(id) {
+        fetch(`http://localhost:8000/tareas?id=${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ completada: false })
+        })
+            .then(response => {
+                if (response.ok) {
+                    cargarTareas();
+                } else {
+                    alert('Error al marcar la tarea como no completada');
+                }
+            })
+            .catch(() => alert('Error en la conexión al actualizar la tarea'));
+    }*/
+
+    // Modifica esta función para que también envíe el estado completada=true en el body
+    /*function marcarComoCompletada(id) {
+        fetch(`http://localhost:8000/tareas?id=${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ completada: true })
+        })
+            .then(response => {
+                if (response.ok) {
+                    cargarTareas();
+                } else {
+                    alert('Error al completar la tarea');
+                }
+            })
+            .catch(() => alert('Error en la conexión al marcar como completada'));
+    }*/
+
+    // Al cargar la página, cargar y mostrar todas las tareas existentes
+    cargarTareas();

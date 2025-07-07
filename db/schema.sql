@@ -12,3 +12,12 @@ INSERT INTO tareas (nombre, completada) VALUES ('Hacer proyecto DAW', true);
 
 SELECT * FROM tareas;
 DESCRIBE tareas;
+ALTER TABLE tareas RENAME COLUMN descripcion TO description;
+
+-- AÑADIR COLUMNA ESTADO PARA INCLUIR ESTADO TODO, INPROGRESS Y DONE
+ALTER TABLE tareas
+ADD COLUMN estado VARCHAR(20) DEFAULT 'todo';
+
+UPDATE tareas SET estado = 'done' WHERE completada = TRUE;
+UPDATE tareas SET estado = 'todo' WHERE completada = FALSE;
+

@@ -24,7 +24,7 @@
     <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN -->
     <main>
         <div class="row">
-             <!-- FORMULARIO PARA AÑADIR NUEVAS TAREAS -->
+            <!-- FORMULARIO PARA AÑADIR NUEVAS TAREAS -->
             <form id="formulario-tarea" class="col s12">
                 <!-- Campo para el título o descripción corta de la tarea -->
                 <div class="input-field col s6">
@@ -49,32 +49,40 @@
 
         <div class="row">
             <!-- COLUMNA DE TAREAS PENDIENTES (TO DO) -->
-            <div class="col s12 m6" id="todo-list">
+            <div class="col s12 m4" id="todo-list">
                 <!-- Contenedor donde se cargarán dinámicamente las tareas pendientes -->
-                <h4>TO DO</h4>
+                <h4>To do</h4>
                 <div id="tareas-todo-container"></div>
             </div>
 
-             <!-- COLUMNA DE TAREAS COMPLETADAS (DONE) -->
-            <div class="col s12 m6" id="done-list">
-                <h4>DONE</h4>
+            <!-- COLUMNA DE TAREAS EN PROGRESO (IN PROGRESS) -->
+            <div class="col s12 m4" id="inprogress-list">
+                <h4>In progress</h4>
+                <div id="tareas-inprogress-container"></div>
+            </div>
+
+            <!-- COLUMNA DE TAREAS COMPLETADAS (DONE) -->
+            <div class="col s12 m4" id="done-list">
+                <h4>Done</h4>
                 <!-- Contenedor donde se cargarán dinámicamente las tareas completadas -->
                 <div id="tareas-done-container"></div>
 
             </div>
         </div>
-        
+
 
     </main>
 
-     <!-- ENLACE AL ARCHIVO JAVASCRIPT EXTERNO QUE CONTIENE LA LÓGICA DEL FRONTEND -->
-    <script src="script.js"></script>
+
 
     <!-- ENLACE AL SCRIPT DE MATERIALIZE JS DESDE CDN PARA COMPONENTES INTERACTIVOS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <!--LIBRERIA SortableJS PARA ARRASTRAR TARJETAS-->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+    <!-- ENLACE AL ARCHIVO JAVASCRIPT EXTERNO QUE CONTIENE LA LÓGICA DEL FRONTEND -->
+    <script src="script.js"></script>
 
 </body>
 

@@ -44,11 +44,12 @@ button[type="submit"]:hover {
 
 /* Títulos de listas */
 #todo-list h4,
-#done-list h4 {
+#done-list h4,
+#inprogress-list h4 {
   font-weight: bold;
   color: #333;
   margin-top: 30px;
-  text-align: center;
+  text-align: left;
 }
 
 /* Tarjetas de tareas */
