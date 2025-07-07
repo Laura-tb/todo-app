@@ -21,3 +21,6 @@ ADD COLUMN estado VARCHAR(20) DEFAULT 'todo';
 UPDATE tareas SET estado = 'done' WHERE completada = TRUE;
 UPDATE tareas SET estado = 'todo' WHERE completada = FALSE;
 
+ALTER TABLE tareas CHANGE completada prueba BOOLEAN DEFAULT FALSE;
+ALTER TABLE tareas DROP COLUMN prueba;
+

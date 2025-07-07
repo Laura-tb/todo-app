@@ -140,21 +140,8 @@ function eliminarTarea(id) {
         });
 }
 
-/*function marcarComoCompletada(id) {
-    fetch(`http://localhost:8000/tareas?id=${id}`, {
-        method: 'PUT'
-    })
-        .then(response => {
-            if (response.ok) {
-                cargarTareas();
-            } else {
-                alert('Error al completar la tarea');
-            }
-        })
-        .catch(() => alert('Error en la conexión al marcar como completada'));
-}*/
 
-//Nueva funcion moverTarea
+//Funcion moverTarea
 function moverTareaAEstado(id, nuevoEstado) {
     fetch(`http://localhost:8000/tareas?id=${id}`, {
         method: 'PUT',
@@ -164,7 +151,6 @@ function moverTareaAEstado(id, nuevoEstado) {
         .then(response => {
             if (response.ok) {
                 cargarTareas();
-                M.toast({ html: `Tarea movida a ${nuevoEstado.toUpperCase()}`, classes: 'rounded blue lighten-1' });
             } else {
                 alert('Error al actualizar estado de la tarea');
             }
@@ -210,68 +196,6 @@ function inicializarDragAndDrop() {
         }
     });
 }
-    // Drag & Drop con SortableJS
-    /*function inicializarDragAndDrop() {
-        Sortable.create(document.getElementById('tareas-todo-container'), {
-            group: 'tareas',
-            animation: 150,
-            onAdd: function (evt) {
-                // Si llega una tarea aquí (mover DONE → TO DO)
-                const tareaElement = evt.item;
-                const idTarea = tareaElement.getAttribute('data-id');
-                if (idTarea) {
-                    marcarComoNoCompletada(idTarea);
-                }
-            }
-        });
-    
-        Sortable.create(document.getElementById('tareas-done-container'), {
-            group: 'tareas',
-            animation: 150,
-            onAdd: function (evt) {
-                // Si llega una tarea aquí (mover TO DO → DONE)
-                const tareaElement = evt.item;
-                const idTarea = tareaElement.getAttribute('data-id');
-                if (idTarea) {
-                    marcarComoCompletada(idTarea);
-                }
-            }
-        });
-    }*/
 
-    // Nueva función para marcar como no completada
-    /*function marcarComoNoCompletada(id) {
-        fetch(`http://localhost:8000/tareas?id=${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ completada: false })
-        })
-            .then(response => {
-                if (response.ok) {
-                    cargarTareas();
-                } else {
-                    alert('Error al marcar la tarea como no completada');
-                }
-            })
-            .catch(() => alert('Error en la conexión al actualizar la tarea'));
-    }*/
-
-    // Modifica esta función para que también envíe el estado completada=true en el body
-    /*function marcarComoCompletada(id) {
-        fetch(`http://localhost:8000/tareas?id=${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ completada: true })
-        })
-            .then(response => {
-                if (response.ok) {
-                    cargarTareas();
-                } else {
-                    alert('Error al completar la tarea');
-                }
-            })
-            .catch(() => alert('Error en la conexión al marcar como completada'));
-    }*/
-
-    // Al cargar la página, cargar y mostrar todas las tareas existentes
-    cargarTareas();
+// Al cargar la página, cargar y mostrar todas las tareas existentes
+cargarTareas();

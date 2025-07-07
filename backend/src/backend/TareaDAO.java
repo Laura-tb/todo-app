@@ -42,7 +42,6 @@ public class TareaDAO {
           t.setId(rs.getInt("id"));
           t.setNombre(rs.getString("nombre"));
           t.setDescription(rs.getString("description"));
-          t.setCompletada(rs.getBoolean("completada"));
           t.setEstado(rs.getString("estado"));
           tareas.add(t); // Añadir tarea a la lista
         }
@@ -59,12 +58,11 @@ public class TareaDAO {
    */
   public void insert(Tarea tarea) throws SQLException {
     try (Connection conn = ConexionBD.conectar()) {
-      String sql = "INSERT INTO tareas (nombre, description, completada, estado) VALUES (?, ?, ?, ?)";
+      String sql = "INSERT INTO tareas (nombre, description, estado) VALUES (?, ?, ?)";
       try (PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, tarea.getNombre());
         ps.setString(2, tarea.getDescription());
-        ps.setBoolean(3, tarea.isCompletada());
-        ps.setString(4, tarea.getEstado());
+        ps.setString(3, tarea.getEstado());
         ps.executeUpdate();
       }
     }
@@ -86,41 +84,7 @@ public class TareaDAO {
     }
   }
 
-  /**
-   * Marca una tarea como completada (completada = TRUE) según su ID.
-   *
-   * @param id Identificador de la tarea a actualizar
-   * @throws SQLException Si ocurre un error en la actualización o conexión
-   */
-  public void marcarComoCompletada(int id) throws SQLException {
-    try (Connection conn = ConexionBD.conectar()) {
-      String sql = "UPDATE tareas SET completada = TRUE, estado = 'done' WHERE id = ?";
-      try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, id);
-        ps.executeUpdate();
-      }
-    }
-  }
-
-  /**
-   * Actualiza el estado completada de una tarea según su ID.
-   *
-   * @param id Identificador de la tarea
-   * @param completada Nuevo estado completada (true o false)
-   * @throws SQLException Si hay error en la consulta o conexión
-   */
-  public void actualizarCompletada(int id, boolean completada) throws SQLException {
-    try (Connection conn = ConexionBD.conectar()) {
-      String sql = "UPDATE tareas SET completada = ? WHERE id = ?";
-      try (PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setBoolean(1, completada);
-        ps.setInt(2, id);
-        ps.executeUpdate();
-      }
-    }
-  }
-
-  // ✅ Nuevo método: actualizar el campo estado
+  // Actualizar el campo estado
   public void actualizarEstado(int id, String nuevoEstado) throws SQLException {
     try (Connection conn = ConexionBD.conectar()) {
       String sql = "UPDATE tareas SET estado = ? WHERE id = ?";

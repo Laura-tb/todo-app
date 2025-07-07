@@ -12,7 +12,6 @@ public class Tarea {
   private int id; // Identificador único de la tarea en la base de datos
   private String nombre; // Nombre o título de la tarea
   private String description; // Descripción detallada de la tarea
-  private boolean completada; // Estado que indica si la tarea está completada o no
   private String estado; // Estado que indica si la tarea está todo, inprogress o done.
 
   // Constructor vacío (por si se necesita)
@@ -24,13 +23,11 @@ public class Tarea {
    *
    * @param nombre Nombre o título de la tarea
    * @param descripcion Descripción de la tarea
-   * @param completada Estado de completada (false al crear normalmente)
    * @param estado Estado de la tarea (todo al crear normalmente)
    */
-  public Tarea(String nombre, String description, boolean completada, String estado) {
+  public Tarea(String nombre, String description, String estado) {
     this.nombre = nombre;
     this.description = description;
-    this.completada = completada;
     this.estado = estado;
   }
 
@@ -40,14 +37,12 @@ public class Tarea {
    * @param id Identificador único de la tarea
    * @param nombre Nombre o título de la tarea
    * @param descripcion Descripción detallada de la tarea
-   * @param completada Estado de completada
    * @param estado Estado de la tarea (todo al crear normalmente)
    */
-  public Tarea(int id, String nombre, String description, boolean completada, String estado) {
+  public Tarea(int id, String nombre, String description, String estado) {
     this.id = id;
     this.nombre = nombre;
     this.description = description;
-    this.completada = completada;
     this.estado = estado;
   }
 
@@ -76,14 +71,6 @@ public class Tarea {
     this.description = description;
   }
 
-  public boolean isCompletada() {
-    return completada;
-  }
-
-  public void setCompletada(boolean completada) {
-    this.completada = completada;
-  }
-
   public String getEstado() {
     return estado;
   }
@@ -103,7 +90,6 @@ public class Tarea {
             + "id=" + id
             + ", nombre=" + nombre
             + ", description=" + description
-            + ", completada=" + completada
             + ", estado=" + estado + '}';
   }
 

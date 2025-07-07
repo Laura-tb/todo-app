@@ -129,12 +129,6 @@ public class Main {
               JsonObject jsonObject = gson.fromJson(body, JsonObject.class);
               boolean hizoCambio = false;
 
-              if (jsonObject.has("completada")) {
-                boolean completada = jsonObject.get("completada").getAsBoolean();
-                tareaDAO.actualizarCompletada(id, completada);
-                hizoCambio = true;
-              }
-
               if (jsonObject.has("estado")) {
                 String estado = jsonObject.get("estado").getAsString();
                 tareaDAO.actualizarEstado(id, estado);
