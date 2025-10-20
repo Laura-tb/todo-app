@@ -12,7 +12,7 @@ INSERT INTO tareas (nombre, completada) VALUES ('Hacer proyecto DAW', true);
 
 SELECT * FROM tareas;
 DESCRIBE tareas;
-ALTER TABLE tareas RENAME COLUMN descripcion TO description;
+ALTER TABLE tareas CHANGE descripcion description VARCHAR(255);
 
 -- AÑADIR COLUMNA ESTADO PARA INCLUIR ESTADO TODO, INPROGRESS Y DONE
 ALTER TABLE tareas

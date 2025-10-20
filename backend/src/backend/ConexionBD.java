@@ -14,8 +14,8 @@ import java.util.Properties;
 
 public class ConexionBD {
 
-  private static final String DEFAULT_URL = "jdbc:mysql://localhost:3306/todo_app";
-  private static final String DEFAULT_USER = "root";
+  private static final String DEFAULT_URL = "jdbc:mysql://localhost:3306/todo_app?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+  private static final String DEFAULT_USER = "todo_user";
   private static final String DEFAULT_PASSWORD = "root";
 
   private static final String URL;
