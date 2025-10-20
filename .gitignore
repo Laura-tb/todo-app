@@ -2,3 +2,8 @@
 /backend/nbproject/private/
 /backend/build/
 DOCUMENTACIÓN PROYECTO GESTOR DE TAREAS.docx
+
+# 🔒 Archivos con credenciales locales
+/backend/src/backend/db.properties
+
+

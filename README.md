@@ -77,6 +77,9 @@ VALUES ('Estudiar Java', 'Recordatorio para 2º', 'todo'),
 
 ## 🔌 Conexión a la Base de Datos (JDBC)
 
+**Archivo:** `db.properties`
+Copia db.properties.example a db.properties y completa tus datos antes de ejecutar el proyecto.
+
 **Archivo:** `ConexionBD.java`
 
 ```java
