@@ -2,8 +2,9 @@ package backend;
 
 /**
  * Clase para gestionar la conexión a la base de datos MySQL
- * @author laura
- * Esta clase utiliza JDBC para conectar con la base de datos 'todo_app'
+ *
+ * @author laura Esta clase utiliza JDBC para conectar con la base de datos
+ * 'todo_app'
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,9 +15,6 @@ import java.util.Properties;
 
 public class ConexionBD {
 
-  private static final String DEFAULT_URL = "jdbc:mysql://localhost:3306/todo_app?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-  private static final String DEFAULT_USER = "todo_user";
-  private static final String DEFAULT_PASSWORD = "root";
 
   private static final String URL;
   private static final String USUARIO;
@@ -29,21 +27,37 @@ public class ConexionBD {
 
     if (url == null || user == null || pass == null) {
       Properties props = new Properties();
-      try (InputStream in = ConexionBD.class.getClassLoader().getResourceAsStream("db.properties")) {
+      try (InputStream in = ConexionBD.class.getClassLoader().getResourceAsStream("backend/db.properties")) {
         if (in != null) {
           props.load(in);
-          if (url == null) url = props.getProperty("db.url");
-          if (user == null) user = props.getProperty("db.user");
-          if (pass == null) pass = props.getProperty("db.password");
+          if (url == null) {
+            url = props.getProperty("db.url");
+          }
+          if (user == null) {
+            user = props.getProperty("db.user");
+          }
+          if (pass == null) {
+            pass = props.getProperty("db.password");
+          }
         }
+        /*System.out.println("DB from env? " + (System.getenv("DB_URL") != null));
+        System.out.println("Cargando /backend/db.properties: " + (in != null));*/
       } catch (IOException e) {
         System.out.println("⚠️ No se pudo cargar db.properties: " + e.getMessage());
       }
+
     }
 
-    URL = url != null ? url : DEFAULT_URL;
-    USUARIO = user != null ? user : DEFAULT_USER;
-    CONTRASENA = pass != null ? pass : DEFAULT_PASSWORD;
+    // Si falta algo, lanzar error claro (mejor que exponer defaults personales)
+    if (url == null || user == null || pass == null) {
+      throw new IllegalStateException(
+              "Config DB incompleta. Define DB_URL, DB_USER y DB_PASSWORD (env) o crea db.properties."
+      );
+    }
+
+    URL = url;
+    USUARIO = user;
+    CONTRASENA = pass;
   }
 
   /**
