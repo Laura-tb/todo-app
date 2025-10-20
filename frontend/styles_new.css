@@ -1,0 +1,129 @@
+:root {
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --primary: #2962ff;
+  --danger: #ef5350;
+  --shadow: 0 10px 25px rgba(16, 24, 40, .08);
+  --radius: 18px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container.page {
+  width: 100vw;
+  max-width: none;
+  padding: 0 2rem;
+}
+
+.page-header {
+  top: 0;
+  z-index: 10;
+  background: rgba(246, 248, 251, .9);
+  border-bottom: 1px solid #e5e7eb;
+  backdrop-filter: saturate(180%) blur(10px);
+}
+
+.brand-title {
+  font-weight: 800;
+  letter-spacing: .4px;
+  margin: 16px 0;
+}
+
+.todo-form {
+  background: linear-gradient(180deg, #fff, #f9fbff);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  margin: 12px 0 28px;
+}
+
+.todo-form .btn {
+  border-radius: 12px;
+  text-transform: none;
+  font-weight: 700;
+}
+
+.board-col {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px;
+  min-height: 120px;
+}
+
+.board-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 2px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.board-title .badge {
+  background: #eef2ff;
+  color: #3730a3;
+  border-radius: 999px;
+}
+
+.card.task-card {
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, .06);
+  transition: transform .15s ease, box-shadow .15s ease;
+  margin-bottom: 12px;
+}
+
+.card.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(16, 24, 40, .10);
+}
+
+.task-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.task-desc {
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+.btn-icon {
+  border-radius: 10px;
+  padding: 0 10px;
+  height: 34px;
+  line-height: 34px;
+}
+
+.btn-edit {
+  background: var(--primary);
+}
+
+.btn-del {
+  background: var(--danger);
+}
+
+.btn-edit:hover,
+.btn-del:hover {
+  filter: brightness(1.05);
+}
+
+@media (max-width:992px) {
+  .board-col {
+    margin-bottom: 18px;
+  }
+
+  .container.page {
+    width: 100%;
+    padding: 0 1rem;
+  }
+  .row .col.s12.m5{
+    margin:2px;
+  }
+}
