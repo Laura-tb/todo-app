@@ -10,99 +10,95 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <!--ENLACE A ESTILOS CSS EXTERNOS-->
-    <link rel="stylesheet" href="styles.css">
-
-
-
+    <link rel="stylesheet" href="styles_new.css">
 </head>
 
-<body class="container">
-    <header>
-        <h1 class="center-align">GESTOR DE TAREAS</h1>
+<body>
+    <!-- Header sticky -->
+    <header class="page-header">
+        <div class="container page">
+            <h4 class="center brand-title">GESTOR DE TAREAS</h4>
+        </div>
     </header>
 
-    <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN -->
-    <main>
-        <div class="row">
-            <!-- FORMULARIO PARA AÑADIR NUEVAS TAREAS -->
-            <form id="formulario-tarea" class="col s12">
-                <!-- Campo para el título o descripción corta de la tarea -->
-                <div class="input-field col s6">
-                    <input placeholder="Añade el nombre de la tarea" id="nombre" type="text" class="validate" required>
+    <main class="container page">
+        <!-- Formulario en tarjeta -->
+        <form id="formulario-tarea" class="todo-form z-depth-1">
+            <div class="row" style="margin-bottom: 0">
+                <div class="input-field col s12 m5">
+                    <input id="nombre" type="text" required />
                     <label for="nombre">Tarea</label>
                 </div>
-
-                <!-- Campo para la descripción detallada de la tarea -->
-                <div class="input-field col s6">
-                    <textarea id="description" class="materialize-textarea"></textarea>
+                <div class="input-field col s12 m5">
+                    <input id="description" type="text" />
                     <label for="description">Descripción de la tarea</label>
                 </div>
-
-                <!-- Botón para enviar el formulario y añadir la tarea -->
-                <div class="col s12">
-                    <button class="btn waves-effect waves-light" type="submit">Añadir tarea</button>
+                <div class="input-field col s12 m2 center">
+                    <button type="submit" class="btn waves-effect waves-light btn-large" style="width: 100%">
+                        Añadir
+                    </button>
                 </div>
+            </div>
+        </form>
 
-            </form>
-        </div>
-
-
+        <!-- Columnas Kanban -->
         <div class="row">
-            <!-- COLUMNA DE TAREAS PENDIENTES (TO DO) -->
-            <div class="col s12 m4" id="todo-list">
-                <!-- Contenedor donde se cargarán dinámicamente las tareas pendientes -->
-                <h4>To do</h4>
-                <div id="tareas-todo-container"></div>
-            </div>
-
-            <!-- COLUMNA DE TAREAS EN PROGRESO (IN PROGRESS) -->
-            <div class="col s12 m4" id="inprogress-list">
-                <h4>In progress</h4>
-                <div id="tareas-inprogress-container"></div>
-            </div>
-
-            <!-- COLUMNA DE TAREAS COMPLETADAS (DONE) -->
-            <div class="col s12 m4" id="done-list">
-                <h4>Done</h4>
-                <!-- Contenedor donde se cargarán dinámicamente las tareas completadas -->
-                <div id="tareas-done-container"></div>
-
-            </div>
-        </div>
-
-        <!-- Ventana Modal para editar tarea -->
-        <div id="modal-editar-tarea" class="modal">
-            <div class="modal-content">
-                <h4>Editar Tarea</h4>
-                <div class="input-field">
-                    <input id="editar-nombre" type="text" class="validate" required>
-                    <label for="editar-nombre">Nombre</label>
-                </div>
-                <div class="input-field">
-                    <textarea id="editar-description" class="materialize-textarea"></textarea>
-                    <label for="editar-description">Descripción</label>
+            <div class="col s12 m4">
+                <div class="board-col">
+                    <div class="board-title">
+                        To do <span id="cnt-todo" class="badge">0</span>
+                    </div>
+                    <div id="tareas-todo-container"></div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                <a id="guardar-edicion" class="waves-effect waves-green btn green">Guardar</a>
+
+            <div class="col s12 m4">
+                <div class="board-col">
+                    <div class="board-title">
+                        In progress <span id="cnt-progress" class="badge">0</span>
+                    </div>
+                    <div id="tareas-inprogress-container"></div>
+                </div>
+            </div>
+
+            <div class="col s12 m4">
+                <div class="board-col">
+                    <div class="board-title">
+                        Done <span id="cnt-done" class="badge">0</span>
+                    </div>
+                    <div id="tareas-done-container"></div>
+                </div>
             </div>
         </div>
-
-
     </main>
 
-
+    <!-- Modal para editar tarea -->
+    <div id="modal-editar-tarea" class="modal">
+        <div class="modal-content">
+            <h5>Editar tarea</h5>
+            <div class="input-field">
+                <input id="editar-nombre" type="text" required />
+                <label for="editar-nombre">Nombre</label>
+            </div>
+            <div class="input-field">
+                <input id="editar-description" type="text" />
+                <label for="editar-description">Descripción</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="guardar-edicion" class="modal-close waves-effect waves-green btn">
+                Guardar
+            </button>
+            <button class="modal-close waves-effect btn-flat">Cancelar</button>
+        </div>
+    </div>
 
     <!-- ENLACE AL SCRIPT DE MATERIALIZE JS DESDE CDN PARA COMPONENTES INTERACTIVOS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
     <!--LIBRERIA SortableJS PARA ARRASTRAR TARJETAS-->
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-
-    <!-- ENLACE AL ARCHIVO JAVASCRIPT EXTERNO QUE CONTIENE LA LÓGICA DEL FRONTEND -->
-    <script src="script.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    <!-- Tu JS -->
+    <script src="./app.js"></script>
 </body>
 
 </html>
